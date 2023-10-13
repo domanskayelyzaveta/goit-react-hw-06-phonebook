@@ -9,28 +9,23 @@ const phoneBookSlice = createSlice({
   name: 'phoneBook',
   initialState,
   reducers: {
-    deleteContact: (state, action) => {},
-    addContact: (state, action) => {},
-    onFilterChange: (state, action) => {},
+    deleteContact: (state, action) => {
+      state.contacts = state.contacts.filter(
+        contact => contact.id !== action.payload
+      );
+      // return { ...state, contacts: [...state.contacts, action.payload] };
+    },
+    addContact: (state, action) => {
+      state.contacts = [...state.contacts, action.payload];
+      //return { ...state, contacts: [...state.contacts, action.payload] };
+    },
+    onFilterChange: (state, action) => {
+      state.filter = action.payload;
+      //  return { ...state, contacts: [...state.contacts, action.payload] };
+    },
   },
 });
 
-export const phoneBookReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'phoneBook/deleteContact': {
-      return { ...state, contacts: [...state.contacts, action.payload] };
-    }
-    case 'phoneBook/addContact': {
-      return { ...state, contacts: [...state.contacts, action.payload] };
-    }
-    case 'phoneBook/onFilterChange': {
-      return { ...state, contacts: [...state.contacts, action.payload] };
-    }
-    default:
-      return state;
-  }
-};
-
-// addContacts;//handleFormSubmit
-// deleteContacts;
-// onFilterChange;
+export const phoneBookReducer = phoneBookSlice.reducer;
+export const { deleteContact, addContact, onFilterChange } =
+  phoneBookSlice.actions;
